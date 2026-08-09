@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ</title>
+    <style>
+        * { box-sizing: border-box; }
+ 
+	body {
+		min-height: 100vh;
+		margin: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: #12141c;
+		font-family: -apple-system, "Segoe UI", sans-serif;
+		padding: 40px 16px;
+	}
+ 
+	.faq {
+		width: 420px;
+		background: #1c1f2b;
+		border-radius: 16px;
+		padding: 10px;
+		box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+	}
+ 
+	h2 {
+		margin: 14px 4px 18px;
+		color: #eef0f7;
+		font-size: 20px;
+	}
+ 
+	.item {
+		border-bottom: 1px solid #2a2f42;
+	}
+ 
+	.item:last-child {
+		border-bottom: none;
+	}
+ 
+	.question {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+		padding: 16px 12px;
+		background: none;
+		border: none;
+		text-align: left;
+		font-size: 15px;
+		font-weight: 600;
+		color: #eef0f7;
+		cursor: pointer;
+	}
+ 
+	.question:hover {
+		color: #4fd6c0;
+	}
+ 
+	.arrow {
+		flex-shrink: 0;
+		color: #4fd6c0;
+		font-size: 13px;
+		transition: transform 0.2s ease;
+	}
+ 
+	.item.open .arrow {
+		transform: rotate(180deg);
+	}
+ 
+	.answer {
+		max-height: 0;
+		overflow: hidden;
+		transition: max-height 0.25s ease;
+	}
+ 
+	.answer p {
+		margin: 0;
+		padding: 0 12px 16px;
+		color: #b9bfd1;
+		font-size: 14px;
+		line-height: 1.5;
+	}
+
+    </style>
+</head>
+<body>
+    <div class="FAQ">
+        <h2>Frequently Asked Question</h2>
+        <div class="item">
+            <button class="question">
+                <span>What is JavaScript?</span>
+                <span class="arrow">▼</span>
+            </button>
+            <div class="answer">
+                <p>JavaScript is a programming Language that runs in the browser and lets you make web pages interactive that allows handling clicks, updating content, and talking to servers.</p>
+            </div>
+        </div>
+
+        <div class="item">
+            <button class="question">
+                <span>What is DOM?</span>
+                <span class="arrow">▼</span>
+            </button>
+            <div class="answer">
+                <p>The dom(Document Object Model) is how the browser represent your HTML as a tree of object, so javascript can read and change the page</p>
+            </div>
+        </div>
+
+        <div class="item">
+            <button class="question">
+                <span>What is MERN Stack?</span>
+                <span class="arrow">▼</span>
+            </button>
+            <div class="answer">
+                <p>Mern stands for MongoDB, Express, React and Node.js They are set of tools commonly used to develop full stack java script web application.</p>
+            </div>
+        </div>
+
+        <div class="item">
+            <button class="question">
+                <span>What is API?</span>
+                <span class="arrow">▼</span>
+            </button>
+            <div class="answer">
+                <p>An Api is a set of rules that lets one piece of software talk to another.forInstance : Your frontend requesting data from a backend server.</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        const items = document.querySelectorAll(".item");
+
+        items.forEach(function(item){
+            const question = item.querySelector(".question");
+            const answer = item.querySelector(".answer");
+            const arrow = item.querySelector(".arrow");
+
+            question.addEventListener("click" ,function(){
+                const isOpen = item.classList.contains("open");
+                // close every item first, so only one can stay open
+                items.forEach(function(other){
+                    other.classList.remove("open");
+                    other.querySelector(".answer").style.maxHeight = null;
+                    other.querySelector(".arrow").textContent = "▼";
+                });
+
+                //then reopen the clicked one,unless it was already open(toggle closed)
+                if(!isOpen){
+                    item.classList.add("open");
+                    answer.style.maxHeight = answer.scrollHeight + "px";
+                    arrow.textContent = "▲";
+                }
+            });
+        });
+    </script>
+    
+</body>
+</html>
