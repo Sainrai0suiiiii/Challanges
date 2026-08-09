@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>welcome</title>
+    <style>
+        * { box-sizing: border-box; }
+ 
+	body {
+		min-height: 100vh;
+		margin: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: #12141c;
+		font-family: -apple-system, "Segoe UI", sans-serif;
+	}
+ 
+	.card {
+		width: 340px;
+		text-align: center;
+		background: #1c1f2b;
+		padding: 40px 28px;
+		border-radius: 16px;
+		box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+	}
+ 
+	.check {
+		width: 56px;
+		height: 56px;
+		margin: 0 auto 20px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: #4fd6c0;
+		border-radius: 50%;
+		color: #0b2b26;
+		font-size: 28px;
+	}
+ 
+	h1 {
+		margin: 0 0 10px;
+		color: #eef0f7;
+		font-size: 22px;
+	}
+ 
+	p {
+		margin: 0 0 24px;
+		color: #b9bfd1;
+		font-size: 14px;
+	}
+ 
+	a {
+		display: inline-block;
+		padding: 12px 20px;
+		font-size: 14px;
+		font-weight: 600;
+		color: #0b2b26;
+		background: #4fd6c0;
+		border-radius: 8px;
+		text-decoration: none;
+	}
+ 
+	a:hover {
+		filter: brightness(1.08);
+	}
+
+    </style>
+</head>
+<body>
+    <div class = "card">
+        <div class ="check">+</div>
+        <h1 id ="greeting">Welcome</h1>
+        <p>Your account has been created successfully.</p>
+        <a href="formValidation.html">Back to sign up</a>
+    </div>
+    <script>
+        // pick up the name saved by the signup form, if its's there\
+        const name= sessionStorage.getItem("signupName");
+        if(name){
+            document.getElementById("greeting").textContent = "welcome," + name + "!";
+        }
+    </script>
+</body>
+</html>
