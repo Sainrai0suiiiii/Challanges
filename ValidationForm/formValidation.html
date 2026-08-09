@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Form Validation</title>
+<style>
+	* { box-sizing: border-box; }
+
+	body {
+		min-height: 100vh;
+		margin: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: #12141c;
+		font-family: -apple-system, "Segoe UI", sans-serif;
+	}
+
+	form {
+		width: 340px;
+		background: #1c1f2b;
+		padding: 32px 28px;
+		border-radius: 16px;
+		box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+	}
+
+	h2 {
+		margin: 0 0 24px;
+		color: #eef0f7;
+		font-size: 22px;
+	}
+
+	.field {
+		margin-bottom: 18px;
+	}
+
+	label {
+		display: block;
+		margin-bottom: 6px;
+		color: #b9bfd1;
+		font-size: 14px;
+	}
+
+	input {
+		width: 100%;
+		padding: 12px 14px;
+		font-size: 15px;
+		border-radius: 8px;
+		border: 1px solid #3a4159;
+		background: #262b3a;
+		color: #eef0f7;
+		outline: none;
+	}
+
+	input:focus {
+		border-color: #4fd6c0;
+	}
+
+	input.invalid {
+		border-color: #ff5d78;
+	}
+
+	.error {
+		min-height: 16px;
+		margin-top: 6px;
+		font-size: 13px;
+		color: #ff5d78;
+	}
+
+	button {
+		width: 100%;
+		padding: 13px 0;
+		margin-top: 8px;
+		font-size: 15px;
+		font-weight: 600;
+		color: #0b2b26;
+		background: #4fd6c0;
+		border: none;
+		border-radius: 8px;
+		cursor: pointer;
+	}
+
+	button:hover {
+		filter: brightness(1.08);
+	}
+
+	button:disabled {
+		opacity: 0.7;
+		cursor: default;
+	}
+
+	.success {
+		margin-top: 14px;
+		text-align: center;
+		color: #4fd6c0;
+		font-size: 14px;
+		display: none;
+	}
+</style>
+</head>
+<body>
+
+<form id="signupForm" novalidate>
+	<h2>Create account</h2>
+
+	<div class="field">
+		<label for="name">Name</label>
+		<input type="text" id="name">
+		<div class="error" id="nameError"></div>
+	</div>
+
+	<div class="field">
+		<label for="email">Email</label>
+		<input type="text" id="email">
+		<div class="error" id="emailError"></div>
+	</div>
+
+	<div class="field">
+		<label for="password">Password</label>
+		<input type="password" id="password">
+		<div class="error" id="passwordError"></div>
+	</div>
+
+	<button type="submit" id="submitBtn">Sign up</button>
+	<div class="success" id="successMsg">Account created. Redirecting…</div>
+</form>
+
+<script>
+	const form = document.getElementById("signupForm");
+	const submitBtn = document.getElementById("submitBtn");
+
+	const nameInput = document.getElementById("name");
+	const emailInput = document.getElementById("email");
+	const passwordInput = document.getElementById("password");
+
+	const nameError = document.getElementById("nameError");
+	const emailError = document.getElementById("emailError");
+	const passwordError = document.getElementById("passwordError");
+
+	const successMsg = document.getElementById("successMsg");
+
+	function setError(input, errorEl, message) {
+		input.classList.add("invalid");
+		errorEl.textContent = message;
+	}
+
+	function clearError(input, errorEl) {
+		input.classList.remove("invalid");
+		errorEl.textContent = "";
+	}
+
+	function validateName() {
+		const value = nameInput.value.trim();
+		if (value === "") {
+			setError(nameInput, nameError, "Name is required.");
+			return false;
+		}
+		clearError(nameInput, nameError);
+		return true;
+	}
+
+	function validateEmail() {
+		const value = emailInput.value.trim();
+		if (value === "") {
+			setError(emailInput, emailError, "Email is required.");
+			return false;
+		}
+		if (!value.includes("@")) {
+			setError(emailInput, emailError, "Email must contain @.");
+			return false;
+		}
+		clearError(emailInput, emailError);
+		return true;
+	}
+
+	function validatePassword() {
+		const value = passwordInput.value;
+		if (value === "") {
+			setError(passwordInput, passwordError, "Password is required.");
+			return false;
+		}
+		if (value.length < 8) {
+			setError(passwordInput, passwordError, "Password must be at least 8 characters.");
+			return false;
+		}
+		clearError(passwordInput, passwordError);
+		return true;
+	}
+
+	// live validation as the user types, so errors clear as soon as they're fixed
+	nameInput.addEventListener("input", validateName);
+	emailInput.addEventListener("input", validateEmail);
+	passwordInput.addEventListener("input", validatePassword);
+
+	form.addEventListener("submit", function (event) {
+		event.preventDefault();
+		successMsg.style.display = "none";
+
+		const isNameValid = validateName();
+		const isEmailValid = validateEmail();
+		const isPasswordValid = validatePassword();
+
+		if (isNameValid && isEmailValid && isPasswordValid) {
+			// pass the name along so the next page can greet the user
+			sessionStorage.setItem("signupName", nameInput.value.trim());
+
+			successMsg.style.display = "block";
+			submitBtn.disabled = true;
+
+			// short pause so the user sees the success message before leaving
+			setTimeout(function () {
+				window.location.href = "welcome.html";
+			}, 900);
+		}
+	});
+</script>
+
+</body>
+</html>
