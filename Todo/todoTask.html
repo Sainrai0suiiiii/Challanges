@@ -5,6 +5,131 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>todoTask</title>
     <style>
+        * { box-sizing: border-box; }
+ 
+	body {
+		min-height: 100vh;
+		margin: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: #12141c;
+		font-family: -apple-system, "Segoe UI", sans-serif;
+		padding: 40px 16px;
+	}
+ 
+	.app {
+		width: 380px;
+		background: #1c1f2b;
+		border-radius: 16px;
+		padding: 28px;
+		box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+	}
+ 
+	h2 {
+		margin: 0 0 20px;
+		color: #eef0f7;
+		font-size: 20px;
+	}
+ 
+	.input-row {
+		display: flex;
+		gap: 8px;
+		margin-bottom: 20px;
+	}
+ 
+	#taskInput {
+		flex: 1;
+		padding: 12px 14px;
+		font-size: 15px;
+		border-radius: 8px;
+		border: 1px solid #3a4159;
+		background: #262b3a;
+		color: #eef0f7;
+		outline: none;
+	}
+ 
+	#taskInput:focus {
+		border-color: #4fd6c0;
+	}
+ 
+	#addBtn {
+		padding: 0 18px;
+		font-size: 20px;
+		font-weight: 600;
+		color: #0b2b26;
+		background: #4fd6c0;
+		border: none;
+		border-radius: 8px;
+		cursor: pointer;
+	}
+ 
+	#addBtn:hover {
+		filter: brightness(1.08);
+	}
+ 
+	#taskList {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+ 
+	.task {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		padding: 12px 4px;
+		border-bottom: 1px solid #2a2f42;
+	}
+ 
+	.task:last-child {
+		border-bottom: none;
+	}
+ 
+	.task-text {
+		flex: 1;
+		color: #eef0f7;
+		font-size: 15px;
+		word-break: break-word;
+	}
+ 
+	.task.completed .task-text {
+		text-decoration: line-through;
+		color: #6b7185;
+	}
+ 
+	.task button {
+		flex-shrink: 0;
+		width: 32px;
+		height: 32px;
+		font-size: 15px;
+		background: #262b3a;
+		border: none;
+		border-radius: 8px;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+ 
+	.complete-btn:hover {
+		background: #2f5f4f;
+	}
+ 
+	.task.completed .complete-btn {
+		background: #4fd6c0;
+	}
+ 
+	.delete-btn:hover {
+		background: #5f2f3a;
+	}
+ 
+	.empty {
+		color: #6b7185;
+		font-size: 14px;
+		text-align: center;
+		padding: 12px 0;
+	}
 
 
     </style>
@@ -17,6 +142,78 @@
     </div >
     <ul id="taskList"></ul>
     <script>
+        const taskInput = document.getElementById("taskInput");
+        const addBtn = document.getElementById("addBtn");
+        const taskList = document.getElementById("taskList");
+
+        function updateEmptyState(){
+            const existingEmpty = taskList.querySelector(".empty");
+            if(taskList.children.length === 0){
+                if(!existingEmpty){
+                    const empty = document.createElement("li");
+                    empty.classList.add("empty");
+                    empty.textContent = "No Task yet.Add one above.";
+                    taskList.appendChild(empty);
+                }
+                
+            }else if (existingEmpty && taskList.children.length > 1){
+                    existingEmpty.remove();
+                }
+        }
+        function addTask(){
+           const text = taskInput.value.trim();
+           if(text === ""){
+            taskInput.focus();
+            return;
+           }
+
+           //remove the "no tasks" placeholder if it's there
+           const existingEmpty = taskList.querySelector(".empty");
+           if(existingEmpty) existingEmpty.remove();
+
+           const li = document.createElement("li");
+           li.classList.add("task");
+
+           const span = document.createElement("span");
+           span.classList.add("task-text");
+           span.textContent = text;
+
+           const completeBtn = document.createElement("button");
+           completeBtn.classList.add("complete-btn");
+           completeBtn.textContent = "✅";
+           completeBtn.addEventListener("click", function(){
+            li.classList.toggle("completed");
+           });
+
+           const deleteBtn = document.createElement("button");
+           deleteBtn.classList.add("delete-btn");
+           deleteBtn.textContent = "**"
+           deleteBtn.addEventListener("click", function(){
+            li.remove();
+            updateEmptyState();            
+           });
+
+           li.appendChild(span);
+           li.appendChild(completeBtn);
+           li.appendChild(deleteBtn);
+           taskList.appendChild(li);
+
+           taskInput.value ="";
+           taskInput.focus();
+        }
+
+        addBtn.addEventListener("click", addTask);
+        //allow pressing Enter to add a task
+        taskInput.addEventListener("keydown", function(event){
+            if(event.key==="Enter"){
+                addTask();
+            }
+
+        });
+        updateEmptyState();
+
+
+
 
     </script>
     
