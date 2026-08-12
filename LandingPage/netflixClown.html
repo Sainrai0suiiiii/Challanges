@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CineStream</title>
+<style>
+	* { box-sizing: border-box; margin: 0; padding: 0; }
+
+	body {
+		font-family: -apple-system, "Segoe UI", sans-serif;
+		background: #141414;
+		color: #ffffff;
+	}
+
+	a { text-decoration: none; color: inherit; }
+
+	/* ===== NAVBAR ===== */
+	.navbar {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 18px 40px;
+		background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+		z-index: 10;
+	}
+
+	.logo {
+		font-size: 24px;
+		font-weight: 800;
+		color: #e63950;
+		letter-spacing: 1px;
+	}
+
+	.nav-links {
+		display: flex;
+		gap: 22px;
+		font-size: 14px;
+		color: #d2d2d2;
+	}
+
+	.nav-links a:hover {
+		color: #ffffff;
+	}
+
+	.nav-right {
+		display: flex;
+		align-items: center;
+		gap: 16px;
+	}
+
+	.signin-btn {
+		padding: 7px 16px;
+		background: #e63950;
+		border-radius: 4px;
+		font-size: 14px;
+		font-weight: 600;
+		transition: background 0.15s ease;
+	}
+
+	.signin-btn:hover {
+		background: #c22e42;
+	}
+
+	/* mobile nav links hidden by default, shown via media query breakpoint below */
+	@media (max-width: 700px) {
+		.nav-links { display: none; }
+		.navbar { padding: 16px 20px; }
+	}
+
+	/* ===== HERO ===== */
+	.hero {
+		position: relative;
+		height: 92vh;
+		display: flex;
+		align-items: center;
+		background:
+			linear-gradient(to top, #141414 5%, transparent 55%),
+			linear-gradient(to right, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.2) 60%),
+			radial-gradient(ellipse at top right, #3a1620, #141414 70%);
+	}
+
+	.hero-content {
+		position: relative;
+		max-width: 600px;
+		padding: 0 40px;
+	}
+
+	.hero-content h1 {
+		font-size: 48px;
+		font-weight: 800;
+		line-height: 1.15;
+		margin-bottom: 16px;
+	}
+
+	.hero-content p {
+		font-size: 18px;
+		color: #e5e5e5;
+		margin-bottom: 22px;
+	}
+
+	.hero-content .sub {
+		font-size: 15px;
+		color: #b3b3b3;
+		margin-bottom: 14px;
+	}
+
+	.signup-row {
+		display: flex;
+		gap: 10px;
+		flex-wrap: wrap;
+	}
+
+	.signup-row input {
+		flex: 1;
+		min-width: 220px;
+		padding: 14px 16px;
+		font-size: 15px;
+		border-radius: 4px;
+		border: 1px solid #6b6b6b;
+		background: rgba(0,0,0,0.55);
+		color: #ffffff;
+		outline: none;
+	}
+
+	.signup-row input:focus {
+		border-color: #e63950;
+	}
+
+	.cta-btn {
+		padding: 14px 26px;
+		font-size: 17px;
+		font-weight: 700;
+		color: #ffffff;
+		background: #e63950;
+		border: none;
+		border-radius: 4px;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		transition: background 0.15s ease;
+	}
+
+	.cta-btn:hover {
+		background: #c22e42;
+	}
+
+	@media (max-width: 700px) {
+		.hero-content h1 { font-size: 30px; }
+		.hero-content p { font-size: 15px; }
+		.hero-content { padding: 0 20px; }
+	}
+
+	/* ===== ROWS ===== */
+	.rows {
+		position: relative;
+		margin-top: -60px;
+		padding: 0 40px 60px;
+		z-index: 2;
+	}
+
+	.row-title {
+		font-size: 20px;
+		font-weight: 700;
+		margin: 34px 0 14px;
+	}
+
+	.card-track {
+		display: flex;
+		gap: 10px;
+		overflow-x: auto;
+		padding-bottom: 8px;
+		scrollbar-width: thin;
+	}
+
+	.card {
+		flex: 0 0 auto;
+		width: 220px;
+		height: 124px;
+		border-radius: 6px;
+		background: linear-gradient(135deg, var(--c1), var(--c2));
+		position: relative;
+		overflow: hidden;
+		cursor: pointer;
+		transition: transform 0.2s ease, box-shadow 0.2s ease;
+	}
+
+	.card:hover {
+		transform: scale(1.08);
+		box-shadow: 0 12px 24px rgba(0,0,0,0.55);
+		z-index: 3;
+	}
+
+	.card-label {
+		position: absolute;
+		left: 10px;
+		bottom: 8px;
+		font-size: 13px;
+		font-weight: 600;
+		text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+	}
+
+	@media (max-width: 700px) {
+		.rows { padding: 0 16px 40px; }
+		.card { width: 150px; height: 90px; }
+	}
+
+	/* ===== FAQ ===== */
+	.faq-section {
+		max-width: 780px;
+		margin: 0 auto;
+		padding: 50px 24px 70px;
+	}
+
+	.faq-section h2 {
+		font-size: 26px;
+		margin-bottom: 18px;
+		text-align: center;
+	}
+
+	.faq-item {
+		border-bottom: 1px solid #3a3a3a;
+	}
+
+	.faq-question {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 18px 4px;
+		background: none;
+		border: none;
+		color: #ffffff;
+		font-size: 16px;
+		text-align: left;
+		cursor: pointer;
+	}
+
+	.faq-answer {
+		max-height: 0;
+		overflow: hidden;
+		transition: max-height 0.25s ease;
+	}
+
+	.faq-answer p {
+		padding: 0 4px 18px;
+		color: #b3b3b3;
+		font-size: 14px;
+		line-height: 1.5;
+	}
+
+	/* ===== FOOTER ===== */
+	footer {
+		padding: 40px;
+		color: #808080;
+		font-size: 13px;
+		text-align: center;
+	}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+	<div class="logo">CineStream</div>
+	<div class="nav-links">
+		<a href="#">Home</a>
+		<a href="#">TV Shows</a>
+		<a href="#">Movies</a>
+		<a href="#">New &amp; Popular</a>
+	</div>
+	<div class="nav-right">
+		<a href="#" class="signin-btn">Sign In</a>
+	</div>
+</nav>
+
+<section class="hero">
+	<div class="hero-content">
+		<h1>Unlimited movies, TV shows and more</h1>
+		<p>Watch anywhere. Cancel anytime.</p>
+		<div class="sub">Ready to watch? Enter your email to create or restart your membership.</div>
+		<div class="signup-row">
+			<input type="email" placeholder="Email address">
+			<button class="cta-btn" id="getStartedBtn">Get Started ›</button>
+		</div>
+	</div>
+</section>
+
+<div class="rows">
+	<div class="row-title">Trending Now</div>
+	<div class="card-track" id="trendingTrack"></div>
+
+	<div class="row-title">Popular on CineStream</div>
+	<div class="card-track" id="popularTrack"></div>
+</div>
+
+<section class="faq-section">
+	<h2>Frequently Asked Questions</h2>
+	<div id="faqList"></div>
+</section>
+
+<footer>
+	<p>Questions? Contact us · This is a practice clone built for learning purposes.</p>
+</footer>
+
+<script>
+	// ===== generate placeholder movie cards =====
+	const palette = [
+		["#7b2ff7", "#f107a3"],
+		["#0f2027", "#2c5364"],
+		["#ff416c", "#ff4b2b"],
+		["#134e5e", "#71b280"],
+		["#232526", "#414345"],
+		["#e1eec3", "#f05053"],
+		["#1f4037", "#99f2c8"],
+		["#360033", "#0b8793"]
+	];
+
+	function buildTrack(trackId, prefix) {
+		const track = document.getElementById(trackId);
+		for (let i = 1; i <= 8; i++) {
+			const [c1, c2] = palette[(i - 1) % palette.length];
+			const card = document.createElement("div");
+			card.className = "card";
+			card.style.setProperty("--c1", c1);
+			card.style.setProperty("--c2", c2);
+
+			const label = document.createElement("div");
+			label.className = "card-label";
+			label.textContent = prefix + " " + i;
+
+			card.appendChild(label);
+			track.appendChild(card);
+		}
+	}
+
+	buildTrack("trendingTrack", "Title");
+	buildTrack("popularTrack", "Show");
+
+	// ===== FAQ accordion (only one open at a time) =====
+	const faqData = [
+		{ q: "What is CineStream?", a: "CineStream is a streaming service that offers a wide variety of TV shows and movies on thousands of internet-connected devices." },
+		{ q: "How much does it cost?", a: "Choose the plan that's right for you. Plans range from a basic ad-supported tier to a premium 4K tier, with no extra costs or contracts." },
+		{ q: "Where can I watch?", a: "Watch anywhere, anytime, on any device with an internet connection. You can also download titles to watch offline." },
+		{ q: "How do I cancel?", a: "CineStream is flexible. There are no annoying contracts and no commitments — you can cancel your account online in two clicks." }
+	];
+
+	const faqList = document.getElementById("faqList");
+
+	faqData.forEach(function (item) {
+		const wrapper = document.createElement("div");
+		wrapper.className = "faq-item";
+
+		const button = document.createElement("button");
+		button.className = "faq-question";
+		button.innerHTML = "<span>" + item.q + "</span><span class='arrow'>+</span>";
+
+		const answer = document.createElement("div");
+		answer.className = "faq-answer";
+		const p = document.createElement("p");
+		p.textContent = item.a;
+		answer.appendChild(p);
+
+		wrapper.appendChild(button);
+		wrapper.appendChild(answer);
+		faqList.appendChild(wrapper);
+
+		button.addEventListener("click", function () {
+			const isOpen = wrapper.classList.contains("open");
+
+			document.querySelectorAll(".faq-item").forEach(function (other) {
+				other.classList.remove("open");
+				other.querySelector(".faq-answer").style.maxHeight = null;
+				other.querySelector(".arrow").textContent = "+";
+			});
+
+			if (!isOpen) {
+				wrapper.classList.add("open");
+				answer.style.maxHeight = answer.scrollHeight + "px";
+				button.querySelector(".arrow").textContent = "×";
+			}
+		});
+	});
+
+	// simple call-to-action interaction
+	document.getElementById("getStartedBtn").addEventListener("click", function () {
+		const email = document.querySelector(".signup-row input").value.trim();
+		if (email === "") {
+			alert("Please enter your email to get started.");
+		} else {
+			alert("Welcome! (This is a practice project — no real signup happens.)");
+		}
+	});
+</script>
+
+</body>
+</html>
